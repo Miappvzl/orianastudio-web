@@ -417,7 +417,7 @@ export const LiveSite: React.FC = () => {
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div>
                 <span className="text-lilac-500 font-bold tracking-widest text-xs uppercase mb-2 block">Social Proof</span>
-                <h2 className="text-4xl font-serif text-gray-900">En Tendencia @nails_orianavalentina</h2>
+                <h2 className="text-3xl font-serif text-gray-900">En Tendencia @nails_orianavalentina</h2>
               </div>
               <a 
                 href="https://www.tiktok.com/@nails_orianavalentina?_r=1&_t=ZM-936AbpsRwWe" 
@@ -534,7 +534,7 @@ export const LiveSite: React.FC = () => {
       </section>
 
       <footer className="bg-white border-t border-gray-100 py-12 text-center">
-        <p className="font-serif text-2xl font-bold text-gray-900 tracking-widest mb-6">ORIANAVALENTINA<span className="text-lilac-500">STUDIO</span></p>
+        <p className="font-serif text-1.3xl font-bold text-gray-900 tracking-widest mb-6">ORIANAVALENTINA<span className="text-lilac-500">STUDIO</span></p>
         <p className="text-xs text-gray-400">© {new Date().getFullYear()} OrianaValentina Studio. Valencia, Venezuela.</p>
       </footer>
       
