@@ -112,7 +112,7 @@ const sections: ProposalSection[] = [
                 <div className="text-blue-800 text-lg hover:underline cursor-pointer">Orianastudio | Manicura y Uñas Acrílicas en Valencia Av. Lara</div>
                 <div className="text-green-700 text-xs mb-1">www.orianastudio.com</div>
                 <div className="text-gray-600 text-sm">
-                  Realza tu belleza con Orianastudio. Especialistas en <strong>uñas acrílicas</strong>, sistemas y diseños modernos en el <strong>C.C. Gran Bazar, Valencia</strong>. ¡Agenda tu cita hoy!
+                  Realza tu belleza con OrianasValentina Studio. Especialistas en <strong>uñas acrílicas</strong>, sistemas y diseños modernos en el <strong>C.C. Gran Bazar, Valencia</strong>. ¡Agenda tu cita hoy!
                 </div>
               </div>
            </div>
