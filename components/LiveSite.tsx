@@ -172,55 +172,51 @@ export const LiveSite: React.FC = () => {
         )}
       </nav>
 
-      {/* HERO: Fondo Claro con Imagen Suave */}
-      <section id="inicio" className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-ivory">
-        {/* Imagen lateral decorativa o fondo sutil */}
-        <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+      {/* Reemplaza la sección del HERO con esto optimizado para móvil */}
+<section id="inicio" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-ivory py-20 md:py-0">
+  {/* ... (deja los fondos/backgrounds igual que antes) ... */}
+
+  <div className="relative z-20 max-w-4xl mx-auto px-6 text-center mt-0 md:mt-10">
+    <RevealOnScroll>
+      <span className="inline-block py-1.5 px-4 rounded-full bg-lilac-100 text-lilac-600 text-[10px] md:text-xs font-bold tracking-widest uppercase mb-6 border border-lilac-200">
+        Estudio Profesional en Valencia
+      </span>
+
+      {/* AJUSTE CLAVE: text-4xl para móvil, text-7xl para PC */}
+      <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-tight mb-6 text-gray-900">
+        Belleza que <br />
+        <span className="italic text-lilac-500">inspira</span> confianza.
+      </h1>
+
+      {/* AJUSTE: Padding lateral para que el texto no toque los bordes en móvil */}
+      <p className="text-base md:text-lg text-gray-500 mb-8 md:mb-10 max-w-xl mx-auto leading-relaxed px-4">
+        Cuidado experto de uñas en un ambiente relajante. Diseños minimalistas y técnicas avanzadas en el C.C. Gran Bazar.
+      </p>
+
+      {/* AJUSTE: Botones ancho completo en móvil (w-full) */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
+        <button 
+          onClick={handleWhatsAppClick}
+          className="w-full sm:w-auto group relative bg-gray-900 text-white text-base md:text-lg px-8 py-4 rounded-full font-medium transition-all hover:bg-lilac-500 hover:shadow-xl hover:-translate-y-1"
+        >
+          <span className="flex items-center justify-center gap-2">
+            Agendar Cita <Heart size={18} className="fill-current" />
+          </span>
+        </button>
         
-        {/* Decoración Lila */}
-        <div className="absolute top-20 right-20 w-96 h-96 bg-lilac-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style={{animationDelay: '1s'}}></div>
-
-        <div className="relative z-20 max-w-4xl mx-auto px-4 text-center mt-10">
-          <RevealOnScroll>
-            <span className="inline-block py-1 px-3 rounded-full bg-lilac-100 text-lilac-600 text-xs font-bold tracking-widest uppercase mb-6 border border-lilac-200">
-              Estudio Profesional en Valencia
-            </span>
-
-            {/* CAMBIO: Tipografía negra */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium leading-tight mb-6 text-gray-900">
-              Belleza que <br />
-              <span className="italic text-lilac-500">inspira</span> confianza.
-            </h1>
-
-            <p className="text-lg text-gray-500 mb-10 max-w-xl mx-auto leading-relaxed">
-              Cuidado experto de uñas en un ambiente relajante. Diseños minimalistas y técnicas avanzadas en el C.C. Gran Bazar.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {/* CAMBIO: Botones Redondos */}
-              <button 
-                onClick={handleWhatsAppClick}
-                className="group relative bg-gray-900 text-white text-lg px-12 py-4 rounded-full font-medium transition-all hover:bg-lilac-500 hover:shadow-xl hover:-translate-y-1"
-              >
-                <span className="flex items-center gap-2">
-                  Agendar Cita <Heart size={18} className="fill-current" />
-                </span>
-              </button>
-              
-              <button 
-                onClick={(e) => scrollToSection(e as any, 'galeria')}
-                className="px-10 py-4 rounded-full bg-white border border-gray-200 text-gray-600 font-medium hover:border-lilac-300 hover:text-lilac-600 transition-all shadow-sm hover:shadow-md"
-              >
-                Ver Portafolio
-              </button>
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+        <button 
+          onClick={(e) => scrollToSection(e as any, 'galeria')}
+          className="w-full sm:w-auto px-8 py-4 rounded-full bg-white border border-gray-200 text-gray-600 font-medium hover:border-lilac-300 hover:text-lilac-600 transition-all shadow-sm hover:shadow-md"
+        >
+          Ver Portafolio
+        </button>
+      </div>
+    </RevealOnScroll>
+  </div>
+</section>
 
       {/* ABOUT: Fondo Blanco Puro */}
-      <section id="sobre-mi" className="py-24 bg-white relative">
+      <section id="sobre-mi" className="py-12 md:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
             <div className="lg:grid lg:grid-cols-12 gap-16 items-center">
@@ -266,7 +262,7 @@ export const LiveSite: React.FC = () => {
       </section>
 
       {/* SERVICES: Fondo Marfil Claro (Ivory) */}
-      <section id="servicios" className="py-24 bg-ivory relative">
+      <section id="servicios" className="py-12 md:py-24 bg-ivory relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <RevealOnScroll>
             <div className="text-center mb-16">
@@ -304,7 +300,7 @@ export const LiveSite: React.FC = () => {
       </section>
 
       {/* GALLERY: Fondo Blanco */}
-      <section id="galeria" className="py-24 bg-white">
+      <section id="galeria" className="py-12 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -337,57 +333,74 @@ export const LiveSite: React.FC = () => {
         </div>
       </section>
 
-      {/* LOCATION: Fondo Marfil/Lila Muy Claro */}
-      <section id="ubicacion" className="bg-lilac-50 py-24">
+     {/* LOCATION: Fondo Marfil/Lila Muy Claro */}
+      <section id="ubicacion" className="bg-lilac-50 py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
-            <div className="bg-white rounded-[3rem] p-8 md:p-12 shadow-xl shadow-lilac-100 overflow-hidden relative">
-              <div className="grid md:grid-cols-2 gap-16 items-center relative z-10">
+            {/* Contenedor Principal: Ajustado rounded y padding para móvil */}
+            <div className="bg-white rounded-3xl md:rounded-[3rem] p-6 md:p-12 shadow-xl shadow-lilac-100 overflow-hidden relative">
+              
+              <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center relative z-10">
+                {/* Columna de Texto */}
                 <div>
-                  <span className="text-lilac-500 font-bold tracking-widest text-xs uppercase mb-4 block">Visítanos</span>
-                  <h2 className="text-4xl font-serif text-gray-900 mb-8">Tu espacio de belleza</h2>
+                  <span className="text-lilac-500 font-bold tracking-widest text-xs uppercase mb-4 block text-center md:text-left">Visítanos</span>
+                  <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-8 text-center md:text-left">Tu espacio de belleza</h2>
                   
-                  <div className="space-y-8">
-                    <div className="flex items-start gap-5">
-                      <div className="p-3 bg-ivory rounded-full text-lilac-500"><MapPin size={24}/></div>
+                  <div className="space-y-6 md:space-y-8">
+                    {/* Item: Ubicación */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-5 text-center md:text-left">
+                      <div className="p-3 bg-ivory rounded-full text-lilac-500 flex-shrink-0"><MapPin size={24}/></div>
                       <div>
                         <h3 className="font-serif text-lg text-gray-900">Ubicación</h3>
-                        <p className="text-gray-500 text-sm">C.C. Gran Bazar, Av. Lara<br/>Nivel Feria, Local 25.</p>
+                        <p className="text-gray-500 text-sm leading-relaxed">
+                          C.C. Gran Bazar, Av. Lara<br/>
+                          Nivel Feria, Local 25.<br/>
+                          Valencia, Venezuela.
+                        </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-5">
-                      <div className="p-3 bg-ivory rounded-full text-lilac-500"><Calendar size={24}/></div>
+                    
+                    {/* Item: Horario */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-5 text-center md:text-left">
+                      <div className="p-3 bg-ivory rounded-full text-lilac-500 flex-shrink-0"><Calendar size={24}/></div>
                       <div>
                         <h3 className="font-serif text-lg text-gray-900">Horario</h3>
                         <p className="text-gray-500 text-sm">Lun - Sáb: 9:00 AM - 6:00 PM</p>
+                        <p className="text-lilac-400 text-xs mt-1 font-medium">Domingos Previa Cita</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-10 flex gap-3">
+                  {/* Métodos de Pago */}
+                  <div className="mt-8 md:mt-10 flex flex-wrap justify-center md:justify-start gap-3">
                      {['Pago Móvil', 'Zelle', 'Efectivo'].map(method => (
-                       <span key={method} className="px-4 py-2 rounded-full border border-gray-200 text-xs font-medium text-gray-500 bg-gray-50">
+                       <span key={method} className="px-4 py-2 rounded-full border border-gray-200 text-xs font-medium text-gray-500 bg-gray-50 hover:bg-lilac-50 hover:text-lilac-600 transition-colors cursor-default">
                          {method}
                        </span>
                      ))}
                   </div>
                 </div>
                 
-                <div className="h-[400px] w-full rounded-[2.5rem] overflow-hidden shadow-inner bg-gray-100 relative group">
-                   <div className="w-full h-full flex flex-col items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-gray-200 text-gray-400">
-                      <MapPin size={48} className="text-gray-400 mb-2" />
-                      <span className="font-serif text-xl">Google Maps Placeholder</span>
-                      <button className="mt-6 px-6 py-2 bg-white rounded-full text-xs font-bold text-gray-900 shadow-md hover:scale-105 transition-transform">
-                        Ver Mapa
-                      </button>
-                   </div>
+                {/* Columna de Mapa (Google Maps Real) */}
+                <div className="h-[300px] md:h-[400px] w-full rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-inner bg-gray-100 relative group mt-6 md:mt-0 border border-gray-100">
+                   <iframe 
+                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.5029844833246!2d-67.9942858249684!3d10.139626389973216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e8067713d317075%3A0x6291619472648710!2sC.C.%20Gran%20Bazar%20Valencia!5e0!3m2!1ses-419!2sve!4v1709228300000!5m2!1ses-419!2sve" 
+                     width="100%" 
+                     height="100%" 
+                     style={{ border: 0 }} 
+                     allowFullScreen={true} 
+                     loading="lazy" 
+                     referrerPolicy="no-referrer-when-downgrade"
+                     title="Mapa OrianaValentina Studio"
+                     className="grayscale hover:grayscale-0 transition-all duration-700"
+                   ></iframe>
                 </div>
+
               </div>
             </div>
           </RevealOnScroll>
         </div>
       </section>
-
       <footer className="bg-white border-t border-gray-100 py-12 text-center">
         <p className="font-serif text-2xl font-bold text-gray-900 tracking-widest mb-6">ORIANA<span className="text-lilac-500">STUDIO</span></p>
         <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Orianavalentina Studio. Valencia, Venezuela.</p>

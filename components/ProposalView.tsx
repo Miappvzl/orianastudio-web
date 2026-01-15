@@ -109,7 +109,7 @@ const sections: ProposalSection[] = [
            <div className="flex-1 bg-white p-4 rounded-lg border border-gray-200">
               <h3 className="font-bold text-gray-800 mb-2 text-sm">Snippet de Google (Simulación)</h3>
               <div className="font-sans">
-                <div className="text-blue-800 text-lg hover:underline cursor-pointer">Orianastudio | Manicura y Uñas Acrílicas en Valencia Av. Lara</div>
+                <div className="text-blue-800 text-lg hover:underline cursor-pointer">OrianaValentina Studio | Manicura y Uñas Acrílicas en Valencia Av. Lara</div>
                 <div className="text-green-700 text-xs mb-1">www.orianastudio.com</div>
                 <div className="text-gray-600 text-sm">
                   Realza tu belleza con OrianasValentina Studio. Especialistas en <strong>uñas acrílicas</strong>, sistemas y diseños modernos en el <strong>C.C. Gran Bazar, Valencia</strong>. ¡Agenda tu cita hoy!
@@ -214,7 +214,7 @@ export const ProposalView: React.FC<{ onSwitchToLive: () => void }> = ({ onSwitc
       <aside className="w-full md:w-72 bg-white border-r border-gray-200 flex-shrink-0 h-auto md:h-screen sticky top-0 overflow-y-auto">
         <div className="p-6 border-b border-gray-100">
           <h1 className="font-serif text-2xl font-bold text-gray-900">Propuesta Web</h1>
-          <p className="text-xs text-gray-500 mt-1 uppercase tracking-wide">Cliente: Orianastudio</p>
+          <p className="text-xs text-gray-500 mt-1 uppercase tracking-wide">Cliente: OrianaValentina Studio</p>
         </div>
         <nav className="p-4 space-y-2">
           {sections.map(section => (
