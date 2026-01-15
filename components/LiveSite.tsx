@@ -400,7 +400,7 @@ export const LiveSite: React.FC = () => {
               
               {/* Tarjeta Final */}
               <div className="min-w-[150px] md:min-w-[200px] flex flex-col items-center justify-center snap-center shrink-0">
-                 <a href="https://www.instagram.com/byorianavalentina?igsh=b2JuZXZyaWQxMWli" target="_blank" className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-lilac-100 text-lilac-500 flex items-center justify-center mb-4 hover:scale-110 transition-transform shadow-sm">
+                 <a href="https://www.instagram.com/orianavalentinastudio?igsh=b2JuZXZyaWQxMWli&utm_source=qr" target="_blank" className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-lilac-100 text-lilac-500 flex items-center justify-center mb-4 hover:scale-110 transition-transform shadow-sm">
                     <ArrowRight size={20} />
                  </a>
                  <span className="text-xs md:text-sm font-medium text-gray-400 text-center px-4">Más en<br/>Instagram</span>
