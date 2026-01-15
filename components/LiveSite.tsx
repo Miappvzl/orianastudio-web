@@ -3,36 +3,63 @@ import { Menu, X, Instagram, MapPin, Calendar, Star, CheckCircle, Phone, ArrowRi
 
 const services = [
   { 
-    title: "Manicura Rusa", 
+    title: "Manicura Masculina", 
     promise: "Limpieza perfecta.",
-    price: "$20", 
-    desc: "Técnica de limpieza profunda de cutículas para una estructura impecable y superficie lisa.",
+    price: "€8", 
+    desc: "Técnica de limpieza profunda de cutículas y brillo semipermanente",
     benefits: ["Acabado pulcro", "Crecimiento saludable", "Piel suave"],
     cta: "Quiero este acabado"
   },
   { 
-    title: "Sistema Acrílico", 
-    promise: "Resistencia elegante.",
-    price: "$35", 
-    desc: "Extensiones esculpidas a mano para embellecer tus uñas con una arquitectura natural.",
-    benefits: ["+21 días de duración", "Corrección de forma", "Diseños modernos"],
+    title: "Recubrimiento en Gel", 
+    promise: "Ideal para uñas naturales.",
+    span: "A partir de:",
+    price: "€13", 
+    desc: "Nivelación sobre una uñas naturales con gel de construccion para fortalecerlas.",
+    benefits: ["De 21 a 30 días de duración", "Corrección de forma", "Diseños modernos"],
     cta: "Agenda tu set"
   },
   { 
     title: "Semipermanente", 
     promise: "Color y brillo.",
-    price: "$20", 
+    price: "€10", 
     desc: "Aplicación de color de larga duración sobre tu uña natural, ideal para el día a día.",
     benefits: ["Brillo espejo", "Secado inmediato", "Variedad de tonos"],
     cta: "Ver colores"
   },
+{ 
+    title: "Soft Gel", 
+    promise: "Alargamiento y Durabilidad.",
+    price: "€15", 
+    desc: "Extensión y fortalecimiento con gel flexible, perfecto para uñas que necesitan un extra de resistencia.",
+    benefits: ["Brillo espejo", "Estructura perfecta", "Variedad de diseños"],
+    cta: "Ver diseños"
+  },
+{ 
+    title: "Dual System", 
+    promise: "Extensión y Versatilidad en diseños con difuminados.",
+    price: "€15", 
+    desc: "Estructura perfecta y resistente con gel y acrílico, ideal para uñas que requieren durabilidad y estilo.",
+    benefits: ["Resistencia", "Aspecto elegante"],
+    cta: "Ver diseños"
+  },
+
   { 
-    title: "Pedicure Spa", 
-    promise: "Relax total.",
-    price: "$25", 
+    title: "Pedicure + Exfoliación", 
+    promise: "Limpieza profunda.",
+    price: "€12", 
     desc: "Experiencia relajante con exfoliación e hidratación intensiva para pies de seda.",
     benefits: ["Alivio de tensión", "Piel renovada", "Higiene absoluta"],
     cta: "Relajarme ahora"
+  },
+
+   { 
+    title: "Retiro:(Semi, Soft Gel, Dual System)", 
+    promise: "Cuidado para tu uña.",
+    price: "€3, €5", 
+    desc: "Eliminación segura de productos semipermanentes, soft gel o dual system.",
+    benefits: ["Alivio de tensión", "Piel renovada", "Higiene absoluta"],
+    cta: "Quiero retirar"
   },
 ];
 
@@ -81,7 +108,7 @@ export const LiveSite: React.FC = () => {
   }, []);
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/584120000000?text=Hola%20Oriana,%20quisiera%20agendar%20una%20cita.', '_blank');
+    window.open('https://wa.me/584144003533?text=Hola%20Oriana,%20quisiera%20agendar%20una%20cita.', '_blank');
   };
 
   return (
@@ -212,10 +239,10 @@ export const LiveSite: React.FC = () => {
                 <h2 className="text-4xl lg:text-5xl font-serif text-gray-900 mb-8">Hola, soy Oriana</h2>
                 <div className="prose prose-lg text-gray-500">
                   <p className="mb-6">
-                    Apasionada por el arte de las uñas y el cuidado personal. Mi objetivo es que cada visita a <span className="text-gray-900 font-medium">Orianastudio</span> sea un momento de desconexión y belleza para ti.
+                    Apasionada por el arte y diseño en uñas. Mi objetivo es que cada visita a <span className="text-gray-900 font-medium">OrianaValentina Studio</span> sea un momento de desconexión, belleza y cuidado para tus manos.
                   </p>
                   <p className="mb-8">
-                    Me especializo en acabados naturales ("Clean Look") y salud de la uña. Utilizo herramientas esterilizadas y productos de alta gama para garantizar tu seguridad.
+                    Me especializo en acabados profesionales y salud de tu uña. Utilizo herramientas esterilizadas y productos de alta calidad para garantizar tu seguridad.
                   </p>
                   
                   <div className="grid sm:grid-cols-2 gap-4">
@@ -244,8 +271,8 @@ export const LiveSite: React.FC = () => {
           <RevealOnScroll>
             <div className="text-center mb-16">
               <span className="text-lilac-500 font-bold tracking-widest text-xs uppercase mb-3 block">Menú</span>
-              <h2 className="text-4xl font-serif text-gray-900 mb-4">Nuestros Servicios</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">Calidad premium para tus manos y pies.</p>
+              <h2 className="text-4xl font-serif text-gray-900 mb-4">Mis Servicios</h2>
+              <p className="text-gray-500 max-w-2xl mx-auto">Calidad premium para tus manos y pies. Cada servicio brinda: Herramientas esterilizadas, exfoliación + masaje e hidratacion, Snack y garantia de 5 dias</p>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -285,8 +312,8 @@ export const LiveSite: React.FC = () => {
                 <h2 className="text-4xl font-serif text-gray-900 mb-2">Galería</h2>
                 <p className="text-gray-500">Un vistazo a mi trabajo.</p>
               </div>
-              <a href="#" className="flex items-center gap-2 text-gray-900 font-medium hover:text-lilac-500 transition-colors">
-                <Instagram size={20} /> @orianastudio
+              <a href="https://www.instagram.com/byorianavalentina?igsh=b2JuZXZyaWQxMWli" className="flex items-center gap-2 text-gray-900 font-medium hover:text-lilac-500 transition-colors">
+                <Instagram size={20} /> @orianavalentinastudio
               </a>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -363,7 +390,7 @@ export const LiveSite: React.FC = () => {
 
       <footer className="bg-white border-t border-gray-100 py-12 text-center">
         <p className="font-serif text-2xl font-bold text-gray-900 tracking-widest mb-6">ORIANA<span className="text-lilac-500">STUDIO</span></p>
-        <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Orianastudio. Valencia, Venezuela.</p>
+        <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Orianavalentina Studio. Valencia, Venezuela.</p>
       </footer>
       
       {/* Botón Flotante WhatsApp */}
