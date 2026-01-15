@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orianastudio - Propuesta Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+              sans: ['"Poppins"', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                50: '#fdf2f8',
+                100: '#fce7f3',
+                200: '#fbcfe8',
+                300: '#f9a8d4',
+                400: '#f472b6',
+                500: '#ec4899',
+                600: '#db2777',
+                700: '#be185d',
+                800: '#9d174d',
+                900: '#831843',
+              },
+              violet: {
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9', // High-end Blueviolet
+                800: '#5b21b6',
+                900: '#4c1d95',
+              },
+              ivory: '#fffbeb', // text-amber-50 equivalent
+            },
+            keyframes: {
+              'glow-pulse': {
+                '0%, 100%': { boxShadow: '0 0 20px rgba(109, 40, 217, 0.3)' },
+                '50%': { boxShadow: '0 0 50px rgba(124, 58, 237, 0.6)' },
+              },
+              'shimmer': {
+                '0%': { transform: 'translateX(-200%) skewX(-12deg)' },
+                '100%': { transform: 'translateX(200%) skewX(-12deg)' },
+              }
+            },
+            animation: {
+              'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+              'shimmer': 'shimmer 4s infinite',
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-black text-slate-200">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
