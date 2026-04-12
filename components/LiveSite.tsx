@@ -61,7 +61,7 @@ const services = [
   },
 ];
 
-// DATOS DE LA GALERÍA (IDs corregidos para evitar errores de React)
+// DATOS DE LA GALERÍA
 const galleryItems = {
   systems: [
     { id: 101, img: "/images/systems/foto1 (1).webp", tag: "System" },
@@ -126,97 +126,6 @@ export const LiveSite: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // NUEVOS ESTADOS PARA EL EFECTO COVER FLOW
-  const [activeGalleryItem, setActiveGalleryItem] = useState<number | null>(null);
-  const galleryScrollRef = useRef<HTMLDivElement>(null);
-
-  // NUEVOS ESTADOS PARA EL EFECTO COVER FLOW EN TIKTOK
-  const [activeTiktokItem, setActiveTiktokItem] = useState<number | null>(null);
-  const tiktokScrollRef = useRef<HTMLDivElement>(null);
-
-  // DETECTOR DE CENTRO PARA TIKTOK
-  useEffect(() => {
-    const track = tiktokScrollRef.current;
-    if (!track) return;
-
-    const updateActiveCenter = () => {
-      const trackRect = track.getBoundingClientRect();
-      const centerPoint = trackRect.left + trackRect.width / 2;
-
-      let minDistance = Infinity;
-      let closestId: number | null = null;
-
-      const cards = track.querySelectorAll('[data-tiktok-item]');
-      cards.forEach((card) => {
-        const cardRect = card.getBoundingClientRect();
-        const cardCenter = cardRect.left + cardRect.width / 2;
-        const distance = Math.abs(cardCenter - centerPoint);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestId = Number(card.getAttribute('data-tiktok-item'));
-        }
-      });
-
-      if (closestId !== null && closestId !== activeTiktokItem) {
-        setActiveTiktokItem(closestId);
-      }
-    };
-
-    updateActiveCenter();
-    const onScroll = () => window.requestAnimationFrame(updateActiveCenter);
-
-    track.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    
-    return () => {
-      track.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, [activeTiktokItem]);
-
-  // LA MAGIA MATEMÁTICA: Detectar el elemento central
-  useEffect(() => {
-    const track = galleryScrollRef.current;
-    if (!track) return;
-
-    const updateActiveCenter = () => {
-      const trackRect = track.getBoundingClientRect();
-      const centerPoint = trackRect.left + trackRect.width / 2;
-
-      let minDistance = Infinity;
-      let closestId: number | null = null;
-
-      // Buscar qué tarjeta está más cerca del centro absoluto
-      const cards = track.querySelectorAll('[data-gallery-item]');
-      cards.forEach((card) => {
-        const cardRect = card.getBoundingClientRect();
-        const cardCenter = cardRect.left + cardRect.width / 2;
-        const distance = Math.abs(cardCenter - centerPoint);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestId = Number(card.getAttribute('data-gallery-item'));
-        }
-      });
-
-      if (closestId !== null && closestId !== activeGalleryItem) {
-        setActiveGalleryItem(closestId);
-      }
-    };
-
-    // Calcular al montar y sincronizar con los frames del navegador
-    updateActiveCenter();
-    const onScroll = () => window.requestAnimationFrame(updateActiveCenter);
-
-    track.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    
-    return () => {
-      track.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, [galleryTab, activeGalleryItem]); // Recalcular si el usuario cambia de pestaña
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -238,7 +147,6 @@ export const LiveSite: React.FC = () => {
   };
 
   return (
-    // FIX CLAVE: overflow-x-hidden en el contenedor principal elimina el scroll horizontal fantasma
     <div className="font-sans text-gray-600 bg-white min-h-screen flex flex-col selection:bg-lilac-200 selection:text-lilac-900 overflow-x-hidden">
       
       {/* NAVBAR */}
@@ -248,7 +156,6 @@ export const LiveSite: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0 flex items-center cursor-pointer">
-              {/* FIX NAVBAR NAME: Ajuste de tamaño responsivo para que quepa "ORIANAVALENTINA" */}
               <span className={`font-serif font-bold transition-colors ${scrolled ? 'text-gray-900' : 'text-gray-900'} 
                 text-sm sm:text-xl md:text-2xl tracking-wider md:tracking-widest`}>
                 ORIANAVALENTINA<span className="text-lilac-500">STUDIO</span>
@@ -337,7 +244,6 @@ export const LiveSite: React.FC = () => {
       </section>
 
       {/* MARQUEE INFINITO */}
-      {/* FIX: Se mantiene el overflow-hidden aquí también para asegurar */}
       <div className="bg-lilac-500 py-3 overflow-hidden relative -rotate-1 shadow-lg border-y-4 border-white z-30 -mt-8 mb-12 mx-[-20px]">
         <div className="flex animate-scroll whitespace-nowrap">
           {[...Array(4)].map((_, i) => (
@@ -432,7 +338,7 @@ export const LiveSite: React.FC = () => {
         </div>
       </section>
 
-     {/* GALERÍA DINÁMICA CON TABS (COVER FLOW PATTERN) */}
+      {/* GALERÍA DINÁMICA (PANORAMIC PATTERN) */}
       <section id="galeria" className="py-12 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
@@ -469,57 +375,46 @@ export const LiveSite: React.FC = () => {
         {/* CONTENEDOR DEL CARRUSEL FULL BLEED */}
         <div className="relative w-full mt-4 overflow-hidden max-w-[100vw]">
           <RevealOnScroll>
-            {/* Máscara Izquierda (Fade in) */}
-            <div className="absolute top-0 left-0 h-full w-20 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
-            
             {/* Máscara Derecha (Fade out) */}
-            <div className="absolute top-0 right-0 h-full w-20 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+            <div className="absolute top-0 right-0 h-full w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none"></div>
 
             {/* Track del Carrusel */}
-            {/* Padding Dinámico: w-48 (12rem) -> half 6rem | w-72 (18rem) -> half 9rem */}
-            <div 
-              ref={galleryScrollRef}
-              className="flex overflow-x-auto gap-6 md:gap-10 pb-16 pt-8 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-[calc(50vw-6rem)] md:px-[calc(50vw-9rem)]"
-            >
-              {galleryItems[galleryTab].map((item) => {
-                const isActive = activeGalleryItem === item.id;
-                return (
-                  <div 
-                    key={item.id} 
-                    data-gallery-item={item.id}
-                    className={`w-48 md:w-72 aspect-[3/4] rounded-2xl md:rounded-[2rem] overflow-hidden relative group cursor-pointer snap-center shrink-0 border border-gray-100 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] origin-center
-                      ${isActive ? 'scale-105 opacity-100 z-10 shadow-2xl shadow-lilac-200/50' : 'scale-[0.85] opacity-40 z-0 hover:opacity-70 shadow-sm'}`}
-                  >
-                    <img 
-                      src={item.img} 
-                      alt={item.tag} 
-                      className="w-full h-full object-cover" 
-                      loading="lazy"
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-5 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
-                      <span className="text-lilac-300 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">{item.tag}</span>
-                      <span className="text-white font-serif italic text-sm md:text-base">Ver foto</span>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="flex overflow-x-auto gap-4 md:gap-6 pb-12 pt-4 px-4 sm:px-6 lg:px-8 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               
-              {/* Tarjeta Final: También reacciona al scroll (ID 999) */}
-              <div 
-                data-gallery-item="999"
-                className={`w-48 md:w-72 aspect-[3/4] flex flex-col items-center justify-center snap-center shrink-0 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${activeGalleryItem === 999 ? 'scale-105 opacity-100' : 'scale-[0.85] opacity-50'}`}
-              >
+              {galleryItems[galleryTab].map((item) => (
+                <div 
+                  key={item.id} 
+                  className="w-40 md:w-72 shrink-0 snap-start aspect-[3/4] rounded-2xl md:rounded-[2rem] overflow-hidden relative group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-gray-100"
+                >
+                  <img 
+                    src={item.img} 
+                    alt={item.tag} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <span className="text-lilac-300 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">{item.tag}</span>
+                    <span className="text-white font-serif italic text-sm md:text-base">Ver foto</span>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Tarjeta Final */}
+              <div className="w-40 md:w-72 shrink-0 snap-start aspect-[3/4] flex flex-col items-center justify-center transition-all duration-500 hover:-translate-y-2">
                  <a href="https://www.instagram.com/orianavalentinastudio?igsh=b2JuZXZyaWQxMWli&utm_source=qr" target="_blank" rel="noopener noreferrer" className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-lilac-50 text-lilac-500 flex items-center justify-center mb-4 hover:scale-110 hover:bg-lilac-500 hover:text-white transition-all shadow-md">
                     <ArrowRight size={24} />
                  </a>
                  <span className="text-sm md:text-base font-serif font-medium text-gray-500 text-center px-4 leading-relaxed">Ver más magia<br/>en Instagram</span>
               </div>
+
+              {/* Espaciador final */}
+              <div className="shrink-0 w-4 md:w-16" aria-hidden="true"></div>
             </div>
           </RevealOnScroll>
         </div>
       </section>
 
-      {/* TIKTOK TRENDS (COVER FLOW PATTERN) */}
+      {/* TIKTOK TRENDS (PANORAMIC PATTERN) */}
       <section className="py-12 md:py-24 bg-lilac-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
@@ -543,62 +438,43 @@ export const LiveSite: React.FC = () => {
         {/* CONTENEDOR DEL CARRUSEL FULL BLEED */}
         <div className="relative w-full mt-4 overflow-hidden max-w-[100vw]">
           <RevealOnScroll>
-            {/* Máscara de degradado Izquierda */}
-            <div className="absolute top-0 left-0 h-full w-20 md:w-48 bg-gradient-to-r from-lilac-50 via-lilac-50/80 to-transparent z-20 pointer-events-none"></div>
-            
             {/* Máscara de degradado Derecha */}
-            <div className="absolute top-0 right-0 h-full w-20 md:w-48 bg-gradient-to-l from-lilac-50 via-lilac-50/80 to-transparent z-20 pointer-events-none"></div>
+            <div className="absolute top-0 right-0 h-full w-16 md:w-32 bg-gradient-to-l from-lilac-50 to-transparent z-20 pointer-events-none"></div>
             
             {/* Track del carrusel */}
-            <div 
-              ref={tiktokScrollRef}
-              className="flex overflow-x-auto gap-4 md:gap-6 pb-16 pt-8 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-[calc(50vw-6rem)] md:px-[calc(50vw-8rem)]"
-            >
-              {tiktokVideos.map((video) => {
-                const isActive = activeTiktokItem === video.id;
+            <div className="flex overflow-x-auto gap-4 md:gap-6 pb-12 pt-4 px-4 sm:px-6 lg:px-8 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              
+              {tiktokVideos.map((video) => (
+                <a 
+                  key={video.id} 
+                  href={video.link || "#"}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-48 md:w-64 shrink-0 snap-start bg-white rounded-[2rem] p-2 shadow-sm hover:shadow-xl hover:shadow-lilac-200/50 transition-all duration-500 hover:-translate-y-2 border border-gray-100 group relative overflow-hidden"
+                >
+                   <div className="aspect-[9/16] w-full h-full rounded-[1.5rem] overflow-hidden bg-gray-900 relative">
+                      <img 
+                        src={video.img} 
+                        alt="TikTok Video Thumbnail" 
+                        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                             <Play size={20} fill="currentColor" className="ml-1" />
+                          </div>
+                      </div>
+                      <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p className="text-white text-xs font-medium line-clamp-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                          Ver video en TikTok
+                        </p>
+                      </div>
+                   </div>
+                </a>
+              ))}
 
-return (
-  /* CORRECCIÓN: Convertimos la tarjeta en un enlace <a> y usamos 
-     clases para forzar el aspecto y solucionar el bug visual 
-  */
-  <a 
-    key={video.id} 
-    href={video.link} // <--- Enlace dinámico al video
-    target="_blank" 
-    rel="noopener noreferrer"
-    data-tiktok-item={video.id}
-    className={`w-48 md:w-64 shrink-0 snap-center bg-white rounded-[2rem] p-2 shadow-sm border border-gray-100 group relative 
-               /* BUG FIX: 'overflow-hidden' es crucial para contener la imagen al inicio */
-               overflow-hidden 
-               transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] origin-center
-               ${isActive ? 'scale-105 opacity-100 z-10 shadow-2xl shadow-lilac-200/50' : 'scale-[0.85] opacity-40 z-0 hover:opacity-70'}`}
-  >
-     
-     <div className="aspect-[9/16] w-full h-full rounded-[1.5rem] overflow-hidden bg-gray-900 relative">
-        <img 
-          src={video.img} 
-          alt="TikTok Video Thumbnail" 
-          /* BUG FIX: 'object-cover' asegura que la imagen rellene 
-             su espacio sin deformarse 
-          */
-          className="w-full h-full object-cover" 
-          loading="lazy"
-        />
-        {/* ... resto del contenido (icono play, degradado, texto) ... */}
-        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-80'}`}>
-            <div className={`w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300 ${isActive ? 'scale-110' : 'scale-100'}`}>
-               <Play size={20} fill="currentColor" className="ml-1" />
-            </div>
-        </div>
-        <div className={`absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
-          <p className={`text-white text-xs font-medium line-clamp-2 transition-transform duration-500 ${isActive ? 'translate-y-0' : 'translate-y-2'}`}>
-            Ver video en TikTok
-          </p>
-        </div>
-     </div>
-  </a>
-);
-} )}
+              {/* Espaciador final */}
+              <div className="shrink-0 w-4 md:w-16" aria-hidden="true"></div>
             </div>
           </RevealOnScroll>
         </div>
