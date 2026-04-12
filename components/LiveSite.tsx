@@ -88,10 +88,12 @@ const galleryItems = {
 };
 
 const tiktokVideos = [
-  { id: 301, img: "/images/tiktok/foto1.1 (1).webp" },
-  { id: 302, img: "/images/tiktok/foto1.1 (2).webp" },
-  { id: 303, img: "/images/tiktok/foto1.1 (3).webp" },
-  { id: 304, img: "/images/tiktok/foto1.1 (4).webp" },
+  { id: 301, img: "/images/tiktok/foto1.1 (3).webp", link: "https://www.tiktok.com/@orianavalentinastudio/photo/7517807590743575864?is_from_webapp=1&sender_device=pc&web_id=7595591879082460728" },
+  { id: 302, img: "/images/tiktok/foto1.1 (2).webp", link: "https://www.tiktok.com/@orianavalentinastudio/photo/7510751064811916552?is_from_webapp=1&sender_device=pc&web_id=7595591879082460728" },
+  { id: 303, img: "/images/tiktok/foto1.1 (5).webp", link: "https://www.tiktok.com/@orianavalentinastudio/video/7595317016861429003?is_from_webapp=1&sender_device=pc&web_id=7595591879082460728" },
+  { id: 304, img: "/images/tiktok/foto1.1 (4).webp", link: "https://www.tiktok.com/@orianavalentinastudio/photo/7605369045839334674?is_from_webapp=1&sender_device=pc&web_id=7595591879082460728" },
+  { id: 305, img: "/images/tiktok/foto1.1 (6).webp", link: "https://www.tiktok.com/@orianavalentinastudio/video/7600508441764924679?is_from_webapp=1&sender_device=pc&web_id=7595591879082460728" },
+  { id: 306, img: "/images/tiktok/foto1.1 (1).webp", link: "https://www.tiktok.com/@orianavalentinastudio/video/7521524657145613574?is_from_webapp=1&sender_device=pc&web_id=7595591879082460728" },
 ];
 
 const RevealOnScroll = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
@@ -124,6 +126,97 @@ export const LiveSite: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // NUEVOS ESTADOS PARA EL EFECTO COVER FLOW
+  const [activeGalleryItem, setActiveGalleryItem] = useState<number | null>(null);
+  const galleryScrollRef = useRef<HTMLDivElement>(null);
+
+  // NUEVOS ESTADOS PARA EL EFECTO COVER FLOW EN TIKTOK
+  const [activeTiktokItem, setActiveTiktokItem] = useState<number | null>(null);
+  const tiktokScrollRef = useRef<HTMLDivElement>(null);
+
+  // DETECTOR DE CENTRO PARA TIKTOK
+  useEffect(() => {
+    const track = tiktokScrollRef.current;
+    if (!track) return;
+
+    const updateActiveCenter = () => {
+      const trackRect = track.getBoundingClientRect();
+      const centerPoint = trackRect.left + trackRect.width / 2;
+
+      let minDistance = Infinity;
+      let closestId: number | null = null;
+
+      const cards = track.querySelectorAll('[data-tiktok-item]');
+      cards.forEach((card) => {
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const distance = Math.abs(cardCenter - centerPoint);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestId = Number(card.getAttribute('data-tiktok-item'));
+        }
+      });
+
+      if (closestId !== null && closestId !== activeTiktokItem) {
+        setActiveTiktokItem(closestId);
+      }
+    };
+
+    updateActiveCenter();
+    const onScroll = () => window.requestAnimationFrame(updateActiveCenter);
+
+    track.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    
+    return () => {
+      track.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [activeTiktokItem]);
+
+  // LA MAGIA MATEMÁTICA: Detectar el elemento central
+  useEffect(() => {
+    const track = galleryScrollRef.current;
+    if (!track) return;
+
+    const updateActiveCenter = () => {
+      const trackRect = track.getBoundingClientRect();
+      const centerPoint = trackRect.left + trackRect.width / 2;
+
+      let minDistance = Infinity;
+      let closestId: number | null = null;
+
+      // Buscar qué tarjeta está más cerca del centro absoluto
+      const cards = track.querySelectorAll('[data-gallery-item]');
+      cards.forEach((card) => {
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const distance = Math.abs(cardCenter - centerPoint);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestId = Number(card.getAttribute('data-gallery-item'));
+        }
+      });
+
+      if (closestId !== null && closestId !== activeGalleryItem) {
+        setActiveGalleryItem(closestId);
+      }
+    };
+
+    // Calcular al montar y sincronizar con los frames del navegador
+    updateActiveCenter();
+    const onScroll = () => window.requestAnimationFrame(updateActiveCenter);
+
+    track.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    
+    return () => {
+      track.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [galleryTab, activeGalleryItem]); // Recalcular si el usuario cambia de pestaña
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -178,7 +271,7 @@ export const LiveSite: React.FC = () => {
               })}
               <button 
                 onClick={handleWhatsAppClick}
-                className="px-8 py-3 rounded-full bg-black text-white font-medium text-sm transition-all hover:bg-lilac-500 hover:shadow-lg hover:-translate-y-0.5"
+                className="px-8 py-3 rounded-full bg-lilac-500 text-white font-medium text-sm transition-all hover:bg-lilac-600 hover:shadow-lg hover:-translate-y-0.5"
               >
                 Reservar Cita
               </button>
@@ -267,7 +360,7 @@ export const LiveSite: React.FC = () => {
               <div className="lg:col-span-5 mb-12 lg:mb-0">
                  <div className="relative">
                     <div className="aspect-[4/5] overflow-hidden rounded-[2.5rem] relative z-10 shadow-2xl shadow-lilac-100">
-                      <img src="/images/yo.webp" alt="Oriana Manicurista Profesional Valencia" className="w-full h-full object-cover" />
+                      <img src="/images/yo.png" alt="Oriana Manicurista Profesional Valencia" className="w-full h-full object-cover" />
                     </div>
                     <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-lilac-200 rounded-[2.5rem] -z-0"></div>
                  </div>
@@ -339,7 +432,7 @@ export const LiveSite: React.FC = () => {
         </div>
       </section>
 
-      {/* GALERÍA DINÁMICA CON TABS */}
+     {/* GALERÍA DINÁMICA CON TABS (COVER FLOW PATTERN) */}
       <section id="galeria" className="py-12 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
@@ -352,8 +445,8 @@ export const LiveSite: React.FC = () => {
                   onClick={() => setGalleryTab('systems')}
                   className={`px-8 py-3 rounded-full text-sm font-bold tracking-widest transition-all border border-transparent ${
                     galleryTab === 'systems' 
-                    ? 'bg-gray-900 text-white shadow-lg scale-105' 
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:border-gray-200'
+                    ? 'bg-lilac-500 text-white shadow-lg scale-105' 
+                    : 'bg-gray-50 text-gray-500 hover:bg-lilac-600 hover:text-white hover:border-gray-200'
                   }`}
                 >
                   SISTEMAS
@@ -362,56 +455,72 @@ export const LiveSite: React.FC = () => {
                   onClick={() => setGalleryTab('art')}
                   className={`px-8 py-3 rounded-full text-sm font-bold tracking-widest transition-all border border-transparent ${
                     galleryTab === 'art' 
-                    ? 'bg-lilac-500 text-white shadow-lg scale-105' 
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:border-gray-200'
+                    ? 'bg-gray-900 text-white shadow-lg scale-105' 
+                    : 'bg-gray-50 text-gray-500 hover:bg-gray-900 hover:text-white hover:border-gray-200'
                   }`}
                 >
                   NAIL ART
                 </button>
               </div>
             </div>
+          </RevealOnScroll>
+        </div>
 
-            {/* CARRUSEL */}
+        {/* CONTENEDOR DEL CARRUSEL FULL BLEED */}
+        <div className="relative w-full mt-4 overflow-hidden max-w-[100vw]">
+          <RevealOnScroll>
+            {/* Máscara Izquierda (Fade in) */}
+            <div className="absolute top-0 left-0 h-full w-20 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+            
+            {/* Máscara Derecha (Fade out) */}
+            <div className="absolute top-0 right-0 h-full w-20 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none"></div>
+
+            {/* Track del Carrusel */}
+            {/* Padding Dinámico: w-48 (12rem) -> half 6rem | w-72 (18rem) -> half 9rem */}
             <div 
-              key={galleryTab}
-              className="flex overflow-x-auto pb-8 gap-4 md:gap-6 snap-x snap-mandatory scroll-smooth"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              ref={galleryScrollRef}
+              className="flex overflow-x-auto gap-6 md:gap-10 pb-16 pt-8 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-[calc(50vw-6rem)] md:px-[calc(50vw-9rem)]"
             >
-              <style>{`.hide-scroll::-webkit-scrollbar { display: none; }`}</style>
-
-              {galleryItems[galleryTab].map((item) => (
+              {galleryItems[galleryTab].map((item) => {
+                const isActive = activeGalleryItem === item.id;
+                return (
                   <div 
                     key={item.id} 
-                    className="w-40 md:w-72 aspect-[3/4] rounded-2xl overflow-hidden relative group cursor-pointer shadow-md snap-start shrink-0 border border-gray-100"
-                    style={{ minWidth: '160px' }}
+                    data-gallery-item={item.id}
+                    className={`w-48 md:w-72 aspect-[3/4] rounded-2xl md:rounded-[2rem] overflow-hidden relative group cursor-pointer snap-center shrink-0 border border-gray-100 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] origin-center
+                      ${isActive ? 'scale-105 opacity-100 z-10 shadow-2xl shadow-lilac-200/50' : 'scale-[0.85] opacity-40 z-0 hover:opacity-70 shadow-sm'}`}
                   >
                     <img 
                       src={item.img} 
                       alt={item.tag} 
-                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                      className="w-full h-full object-cover" 
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                      <span className="text-lilac-300 text-[10px] font-bold uppercase tracking-wider mb-0.5">{item.tag}</span>
-                      <span className="text-white font-serif italic text-sm">Ver foto</span>
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-5 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+                      <span className="text-lilac-300 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1">{item.tag}</span>
+                      <span className="text-white font-serif italic text-sm md:text-base">Ver foto</span>
                     </div>
                   </div>
-              ))}
+                );
+              })}
               
-              {/* Tarjeta Final */}
-              <div className="min-w-[150px] md:min-w-[200px] flex flex-col items-center justify-center snap-center shrink-0">
-                 <a href="https://www.instagram.com/orianavalentinastudio?igsh=b2JuZXZyaWQxMWli&utm_source=qr" target="_blank" className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-lilac-100 text-lilac-500 flex items-center justify-center mb-4 hover:scale-110 transition-transform shadow-sm">
-                    <ArrowRight size={20} />
+              {/* Tarjeta Final: También reacciona al scroll (ID 999) */}
+              <div 
+                data-gallery-item="999"
+                className={`w-48 md:w-72 aspect-[3/4] flex flex-col items-center justify-center snap-center shrink-0 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${activeGalleryItem === 999 ? 'scale-105 opacity-100' : 'scale-[0.85] opacity-50'}`}
+              >
+                 <a href="https://www.instagram.com/orianavalentinastudio?igsh=b2JuZXZyaWQxMWli&utm_source=qr" target="_blank" rel="noopener noreferrer" className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-lilac-50 text-lilac-500 flex items-center justify-center mb-4 hover:scale-110 hover:bg-lilac-500 hover:text-white transition-all shadow-md">
+                    <ArrowRight size={24} />
                  </a>
-                 <span className="text-xs md:text-sm font-medium text-gray-400 text-center px-4">Más en<br/>Instagram</span>
+                 <span className="text-sm md:text-base font-serif font-medium text-gray-500 text-center px-4 leading-relaxed">Ver más magia<br/>en Instagram</span>
               </div>
             </div>
           </RevealOnScroll>
         </div>
       </section>
 
-      {/* TIKTOK TRENDS */}
-      <section className="py-12 md:py-24 bg-lilac-50 overflow-hidden">
+      {/* TIKTOK TRENDS (COVER FLOW PATTERN) */}
+      <section className="py-12 md:py-24 bg-lilac-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <RevealOnScroll>
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -420,34 +529,76 @@ export const LiveSite: React.FC = () => {
                 <h2 className="text-3xl font-serif text-gray-900">En Tendencia @nails_orianavalentina</h2>
               </div>
               <a 
-                href="https://www.tiktok.com/@nails_orianavalentina?_r=1&_t=ZM-936AbpsRwWe" 
+                href="https://www.tiktok.com/@orianavalentinastudio?is_from_webapp=1&sender_device=pc" 
                 target="_blank" 
-                className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-1"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 bg-lilac-500 text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-1 z-20 relative"
               >
                 <Play size={16} fill="currentColor" /> Seguir a Oriana
               </a>
             </div>
+          </RevealOnScroll>
+        </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {tiktokVideos.map((video) => (
-                <div key={video.id} className="bg-white rounded-[2rem] p-2 shadow-lg hover:shadow-xl hover:shadow-lilac-200/50 transition-all duration-300 border border-gray-100 group relative">
-                   <div className="aspect-[9/16] rounded-[1.5rem] overflow-hidden bg-gray-900 relative">
-                      <img 
-                        src={video.img} 
-                        alt="TikTok Video Thumbnail" 
-                        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform">
-                             <Play size={20} fill="currentColor" />
-                          </div>
-                      </div>
-                      <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
-                        <p className="text-white text-xs font-medium line-clamp-2">Ver video en TikTok</p>
-                      </div>
-                   </div>
-                </div>
-              ))}
+        {/* CONTENEDOR DEL CARRUSEL FULL BLEED */}
+        <div className="relative w-full mt-4 overflow-hidden max-w-[100vw]">
+          <RevealOnScroll>
+            {/* Máscara de degradado Izquierda */}
+            <div className="absolute top-0 left-0 h-full w-20 md:w-48 bg-gradient-to-r from-lilac-50 via-lilac-50/80 to-transparent z-20 pointer-events-none"></div>
+            
+            {/* Máscara de degradado Derecha */}
+            <div className="absolute top-0 right-0 h-full w-20 md:w-48 bg-gradient-to-l from-lilac-50 via-lilac-50/80 to-transparent z-20 pointer-events-none"></div>
+            
+            {/* Track del carrusel */}
+            <div 
+              ref={tiktokScrollRef}
+              className="flex overflow-x-auto gap-4 md:gap-6 pb-16 pt-8 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-[calc(50vw-6rem)] md:px-[calc(50vw-8rem)]"
+            >
+              {tiktokVideos.map((video) => {
+                const isActive = activeTiktokItem === video.id;
+
+return (
+  /* CORRECCIÓN: Convertimos la tarjeta en un enlace <a> y usamos 
+     clases para forzar el aspecto y solucionar el bug visual 
+  */
+  <a 
+    key={video.id} 
+    href={video.link} // <--- Enlace dinámico al video
+    target="_blank" 
+    rel="noopener noreferrer"
+    data-tiktok-item={video.id}
+    className={`w-48 md:w-64 shrink-0 snap-center bg-white rounded-[2rem] p-2 shadow-sm border border-gray-100 group relative 
+               /* BUG FIX: 'overflow-hidden' es crucial para contener la imagen al inicio */
+               overflow-hidden 
+               transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] origin-center
+               ${isActive ? 'scale-105 opacity-100 z-10 shadow-2xl shadow-lilac-200/50' : 'scale-[0.85] opacity-40 z-0 hover:opacity-70'}`}
+  >
+     
+     <div className="aspect-[9/16] w-full h-full rounded-[1.5rem] overflow-hidden bg-gray-900 relative">
+        <img 
+          src={video.img} 
+          alt="TikTok Video Thumbnail" 
+          /* BUG FIX: 'object-cover' asegura que la imagen rellene 
+             su espacio sin deformarse 
+          */
+          className="w-full h-full object-cover" 
+          loading="lazy"
+        />
+        {/* ... resto del contenido (icono play, degradado, texto) ... */}
+        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-80'}`}>
+            <div className={`w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300 ${isActive ? 'scale-110' : 'scale-100'}`}>
+               <Play size={20} fill="currentColor" className="ml-1" />
+            </div>
+        </div>
+        <div className={`absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+          <p className={`text-white text-xs font-medium line-clamp-2 transition-transform duration-500 ${isActive ? 'translate-y-0' : 'translate-y-2'}`}>
+            Ver video en TikTok
+          </p>
+        </div>
+     </div>
+  </a>
+);
+} )}
             </div>
           </RevealOnScroll>
         </div>
@@ -489,7 +640,7 @@ export const LiveSite: React.FC = () => {
                   </div>
 
                   <div className="mt-8 md:mt-10 flex flex-wrap justify-center md:justify-start gap-3">
-                     {['Pago Móvil', 'Zelle', 'Efectivo'].map(method => (
+                     {['Pago Móvil', 'Zinli', 'Efectivo'].map(method => (
                        <span key={method} className="px-4 py-2 rounded-full border border-gray-200 text-xs font-medium text-gray-500 bg-gray-50 hover:bg-lilac-50 hover:text-lilac-600 transition-colors cursor-default">
                          {method}
                        </span>

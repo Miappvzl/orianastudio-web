@@ -160,7 +160,7 @@ const sections: ProposalSection[] = [
                <span className="text-gray-400">Bs. Tasa BCV</span>
              </li>
              <li className="flex justify-between border-b pb-1">
-               <span>Zelle</span>
+               <span>Zinli</span>
                <span className="text-gray-400">USD</span>
              </li>
              <li className="flex justify-between border-b pb-1">
